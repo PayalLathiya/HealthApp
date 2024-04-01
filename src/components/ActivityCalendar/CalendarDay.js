@@ -344,7 +344,10 @@ class CalendarDay extends Component {
 
     return (
       // default empty spacer
-      <Text style={{fontSize: 10, paddingVertical: 2}}>➕</Text>
+      <TouchableOpacity 
+        onPress={this.props.onDateSelected.bind(this, this.props.date)}>
+        <Text style={{fontSize: 10, paddingVertical: 2}}>➕</Text>
+      </TouchableOpacity>
     );
   }
 
@@ -521,7 +524,8 @@ class CalendarDay extends Component {
       day = (
         <TouchableOpacity
           onPress={onDateSelected.bind(this, date)}
-          disabled={!enabled}
+          disabled={true}
+          // disabled={!enabled}
         >
           <View style={[]}>
             {showDayName && (

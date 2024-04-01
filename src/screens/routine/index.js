@@ -18,10 +18,6 @@ import BottomSheet, {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 
-type Props = {};
-
-type EmojiItem = {name: string; emoji: string; polarity: number};
-
 const markedDatesArrayInit = [
   {
     date: moment(),
@@ -57,40 +53,34 @@ const markedDatesArrayInit = [
   },
 ];
 
-const Routine: React.FunctionComponent<Props> = ({}) => {
-  const calendarRef = useRef<any>();
+const Routine = ({}) => {
+  const calendarRef = useRef();
   const [startingDate, setStartingDate] = useState(moment());
   const [selectedDate, setSelectedDate] = useState(moment());
   const [markedDatesArray, setMarkedDate] = useState(markedDatesArrayInit);
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const [selectedEmojiBottom, setSelectedEmojiBottom] = useState<EmojiItem>(emojiEmotion[0]);
+  const bottomSheetRef = useRef(null);
+  const [selectedEmojiBottom, setSelectedEmojiBottom] = useState(emojiEmotion[0]);
 
-  const handleSheetChanges = (index: number) => {
+  const handleSheetChanges = (index) => {
     console.log('handleSheetChanges', index);
   };
 
-  const onMonthPrevious = () => {
-    calendarRef.current.setSelectedDate(selectedDate.subtract(1, 'month'));
+  const onMonthPrevious = (weekStartDate, weekEndDate) => {
+    calendarRef.current.getPreviousWeek()
   };
 
-  const onMonthNext = (weekStartDate: any) => {
-    if (
-      weekStartDate.month() == moment().month() &&
-      weekStartDate.year() == moment().year()
-    ) {
-      Alert.alert('Future month can not be visible.');
-    } else {
-      calendarRef.current.setSelectedDate(selectedDate.add(1, 'month'));
-    }
+  const onMonthNext = (weekStartDate, weekEndDate) => {
+    console.log(weekStartDate);
+    calendarRef.current.getNextWeek()
   };
 
-  const onDateSelected = (selectedDate: any) => {
+  const onDateSelected = (selectedDate) => {
     setSelectedEmojiBottom(emojiEmotion[0])
     bottomSheetRef.current?.present();
     setSelectedDate(selectedDate);
   };
 
-  const onSelectEmoji = (emoji: EmojiItem) => {
+  const onSelectEmoji = (emoji) => {
     setSelectedEmojiBottom(emoji);
     const dateObject = {
       date: selectedDate,
@@ -100,12 +90,12 @@ const Routine: React.FunctionComponent<Props> = ({}) => {
         },
       ],
     };
-    const newArray = markedDatesArray.filter((item: any) => item.date.day() !== selectedDate.day())
+    const newArray = markedDatesArray.filter((item) => item.date.day() !== selectedDate.day())
     newArray.push(dateObject);
     setMarkedDate(newArray);
   };
 
-  const onTodaySelectEmoji = (emoji: EmojiItem) => {
+  const onTodaySelectEmoji = (emoji) => {
     const dateObject = {
       date: moment(),
       emoji: [
@@ -114,7 +104,7 @@ const Routine: React.FunctionComponent<Props> = ({}) => {
         },
       ],
     };
-    const newArray = markedDatesArray.filter((item: any) => item.date.day() !== moment().day())
+    const newArray = markedDatesArray.filter((item) => item.date.day() !== moment().day())
     newArray.push(dateObject);
     setMarkedDate(newArray);
   };

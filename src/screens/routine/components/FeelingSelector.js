@@ -7,38 +7,29 @@ import CircleList from '../../../components/circleSlider';
 const {width} = Dimensions.get('screen');
 const RADIUS = width / 1.8;
 
-type Item = {name: string; emoji: string; polarity: number};
-
 export const CircleListItem = ({
   label,
   value,
-}: {
-  label: string;
-  value: string;
 }) => (
   <View>
     <Text style={styles.text}>{value}</Text>
   </View>
 );
 
-type Props = {
-  onSelectEmoji?: (emoji: Item) => void;
-};
+const FeelingSelector = ({onSelectEmoji}) => {
+  const [scrolling, setScrolling] = useState(false);
+  let circleList = null;
 
-const FeelingSelector: React.FunctionComponent<Props> = ({onSelectEmoji}) => {
-  const [scrolling, setScrolling] = useState<boolean>(false);
-  let circleList: any = null;
-
-  const _keyExtractor = (item: Item) => item.name;
+  const _keyExtractor = (item) => item.name;
 
   const _onScrollBegin = () => setScrolling(true);
 
-  const _onScrollEnd = (i: number) => {
+  const _onScrollEnd = (i) => {
     onSelectEmoji && onSelectEmoji(emojiEmotion[i])
     setScrolling(false)
   };
 
-  const _renderItem = ({item}: {item: Item}) => (
+  const _renderItem = ({item}) => (
     <CircleListItem label={`${item.name}`} value={item.emoji + ''} />
   );
 
@@ -48,7 +39,7 @@ const FeelingSelector: React.FunctionComponent<Props> = ({onSelectEmoji}) => {
         elementCount={16}
         keyExtractor={_keyExtractor}
         radius={RADIUS}
-        innerRef={(component: any) => {
+        innerRef={(component) => {
           circleList = component;
         }}
         onScrollBegin={_onScrollBegin}

@@ -92,7 +92,7 @@ class CalendarHeader extends Component {
 
     return (
       <View style={styles.headerComponentView}>
-        <TouchableOpacity onPress={() => onMonthPrevious && onMonthPrevious()}>
+        <TouchableOpacity onPress={() => onMonthPrevious && onMonthPrevious(_weekStartDate, _weekStartDate)}>
           <Image
             style={{height: 15, tintColor: 'purple'}}
             source={require('./img/left-arrow-black.png')}
@@ -134,7 +134,7 @@ class CalendarHeader extends Component {
             </Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity onPress={() => onMonthNext && onMonthNext(weekStartDate)}>
+        <TouchableOpacity onPress={() => onMonthNext && onMonthNext(_weekStartDate, _weekStartDate)}>
           <Image
             style={{height: 15, tintColor: 'purple'}}
             source={require('./img/right-arrow-black.png')}
